@@ -173,31 +173,42 @@
 
   <script>
     (function () {
-      // Captura os parâmetros UTM da URL atual
-      var params = new URLSearchParams(window.location.search);
-      var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
-      var utmParams = {};
-      var hasUtm = false;
+      function applyUtmToCheckoutLinks() {
+        var params = new URLSearchParams(window.location.search);
+        var utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+        var utmParams = {};
+        var hasUtm = false;
 
-      utmKeys.forEach(function (key) {
-        var value = params.get(key);
-        if (value) {
-          utmParams[key] = value;
-          hasUtm = true;
-        }
-      });
-
-      if (!hasUtm) return;
-
-      // Anexa os UTMs em todos os links que apontam para o checkout da Eduzz
-      var links = document.querySelectorAll('a[href*="sun.eduzz.com"]');
-      links.forEach(function (link) {
-        var url = new URL(link.href);
-        Object.keys(utmParams).forEach(function (key) {
-          url.searchParams.set(key, utmParams[key]);
+        utmKeys.forEach(function (key) {
+          var value = params.get(key);
+          if (value) {
+            utmParams[key] = value;
+            hasUtm = true;
+          }
         });
-        link.href = url.toString();
-      });
+
+        if (!hasUtm) return;
+
+        var links = document.querySelectorAll('a[href*="sun.eduzz.com"]');
+        links.forEach(function (link) {
+          var url = new URL(link.href);
+          Object.keys(utmParams).forEach(function (key) {
+            url.searchParams.set(key, utmParams[key]);
+          });
+          link.href = url.toString();
+        });
+      }
+
+      // Roda assim que o DOM estiver pronto (links já existem na página)
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyUtmToCheckoutLinks);
+      } else {
+        applyUtmToCheckoutLinks();
+      }
+
+      // Roda de novo após o load completo, por segurança (cobre qualquer conteúdo
+      // inserido dinamicamente depois do DOMContentLoaded)
+      window.addEventListener('load', applyUtmToCheckoutLinks);
     })();
   </script>
 </head>
