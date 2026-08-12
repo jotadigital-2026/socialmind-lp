@@ -211,6 +211,26 @@
       window.addEventListener('load', applyUtmToCheckoutLinks);
     })();
   </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '2562239147372028');
+  fbq('track', 'PageView');
+  fbq('track', 'ViewContent');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=2562239147372028&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
 </head>
 <body>
 
@@ -224,7 +244,7 @@
     <span class="eyebrow">Social Media Intelligence</span>
     <h1>Gerencie sua agência<br>com <span class="grad">inteligência</span><br>e sem caos</h1>
     <p class="hero-sub">Clientes, aprovações, financeiro, pauta e muito mais — tudo em um só lugar. Feita por social media, para social medias.</p>
-    <div><a href="#planos" class="btn-primary">Escolher meu plano</a></div>
+    <div><a href="#planos" class="btn-primary" onclick="fbq('track', 'Lead')">Escolher meu plano</a></div>
     <p class="hero-note">✦ Acesso imediato após a assinatura</p>
   </div>
   <div class="hero-right">
@@ -367,7 +387,7 @@
         <li>Planejamentos e cronograma</li>
         <li>Raio-X da Marca</li>
       </ul>
-      <a href="https://sun.eduzz.com/D0R85ZNJ9Y" target="_blank" class="plan-btn ghost">Assinar Eugência</a>
+      <a href="https://sun.eduzz.com/D0R85ZNJ9Y" target="_blank" class="plan-btn ghost" onclick="fbq('track', 'Lead')">Assinar Eugência</a>
     </div>
     <div class="plan-card highlight">
       <div class="plan-badge">Mais popular</div>
@@ -385,7 +405,7 @@
         <li>Impulsionamentos</li>
         <li>CRM de prospecção</li>
       </ul>
-      <a href="https://sun.eduzz.com/8WPN5V2P0P" target="_blank" class="plan-btn">Assinar Pro</a>
+      <a href="https://sun.eduzz.com/8WPN5V2P0P" target="_blank" class="plan-btn" onclick="fbq('track', 'Lead')">Assinar Pro</a>
     </div>
     <div class="plan-card">
       <p class="plan-name">Agência Premium</p>
@@ -398,7 +418,7 @@
         <li>Usuários ilimitados</li>
         <li>Suporte prioritário</li>
       </ul>
-      <a href="https://sun.eduzz.com/G96RX5EAW1" target="_blank" class="plan-btn ghost">Assinar Premium</a>
+      <a href="https://sun.eduzz.com/G96RX5EAW1" target="_blank" class="plan-btn ghost" onclick="fbq('track', 'Lead')">Assinar Premium</a>
     </div>
   </div>
 </section>
@@ -409,7 +429,7 @@
   <div class="final-content">
     <h2>Pronta para organizar<br>sua agência <span class="grad">de vez</span>?</h2>
     <p>Escolha seu plano, acesse a plataforma e comece hoje.</p>
-    <a href="#planos" class="btn-primary" style="font-size:16px; padding:16px 40px;">Escolher meu plano</a>
+    <a href="#planos" class="btn-primary" style="font-size:16px; padding:16px 40px;" onclick="fbq('track', 'Lead')">Escolher meu plano</a>
   </div>
 </div>
 
