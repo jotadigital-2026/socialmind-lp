@@ -145,16 +145,17 @@ function renderResult() {
 }
 renderIntro();
 
-/* ---- Lightbox gallery + carousel ---- */
+/* ---- Lightbox (testimonials gallery + screenshot zoom) ---- */
 const lb = document.getElementById('lightbox'), lbImg = lb.querySelector('img');
-const gallery = []; let gi = 0;
+const gallery = []; let lbList = gallery, gi = 0;
+function openLb(list, i) { lbList = list; gi = i; lb.classList.toggle('single', list.length < 2); lbImg.src = lbList[gi]; lb.classList.add('open'); }
+function stepLb(d) { gi = (gi + d + lbList.length) % lbList.length; lbImg.src = lbList[gi]; }
 document.querySelectorAll('.testi-img').forEach(t => {
   const start = gallery.length;
   t.dataset.full.split('|').forEach(s => gallery.push(s));
-  t.addEventListener('click', () => { gi = start; showLb(); lb.classList.add('open'); });
+  t.addEventListener('click', () => openLb(gallery, start));
 });
-function showLb() { lbImg.src = gallery[gi]; }
-function stepLb(d) { gi = (gi + d + gallery.length) % gallery.length; showLb(); }
+document.querySelectorAll('[data-zoom]').forEach(el => el.addEventListener('click', () => openLb([el.dataset.zoom], 0)));
 lb.querySelector('.lb-prev').onclick = e => { e.stopPropagation(); stepLb(-1); };
 lb.querySelector('.lb-next').onclick = e => { e.stopPropagation(); stepLb(1); };
 lb.addEventListener('click', e => { if (e.target === lb || e.target.classList.contains('lb-close')) lb.classList.remove('open'); });
@@ -164,6 +165,23 @@ document.addEventListener('keydown', e => {
   if (e.key === 'ArrowRight') stepLb(1);
   if (e.key === 'ArrowLeft') stepLb(-1);
 });
+
+/* ---- Tour video ---- */
+const tourEl = document.getElementById('tourEl'), tourPlay = document.getElementById('tourPlay');
+if (tourEl && tourPlay) {
+  tourPlay.addEventListener('click', () => {
+    tourEl.controls = true; tourEl.play(); tourPlay.classList.add('hide');
+    if (window.fbq) fbq('trackCustom', 'TourPlay');
+  });
+  tourEl.addEventListener('ended', () => { tourPlay.classList.remove('hide'); tourEl.controls = false; });
+}
+
+/* ---- Financeiro tabs (auto-rotate until user interacts) ---- */
+const finBtns = [...document.querySelectorAll('[data-fin]')], finShots = [...document.querySelectorAll('.fin-shot')];
+let finIdx = 0, finAuto = setInterval(() => setFin((finIdx + 1) % 2), 5000);
+function setFin(i) { finIdx = i; finBtns.forEach((b, k) => b.classList.toggle('on', k === i)); finShots.forEach((s, k) => s.classList.toggle('on', k === i)); }
+finBtns.forEach(b => b.addEventListener('click', () => { clearInterval(finAuto); setFin(+b.dataset.fin); }));
+
 const track = document.getElementById('testiTrack');
 const cardW = () => { const c = track.querySelector('.testi-card'); return c ? c.getBoundingClientRect().width + 22 : 360; };
 document.getElementById('tPrev').onclick = () => track.scrollBy({ left: -cardW(), behavior: 'smooth' });
