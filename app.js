@@ -11,6 +11,20 @@ document.addEventListener('click', e => {
   if (el && window.fbq) fbq('track', 'Lead', { content_name: el.dataset.lead });
 });
 
+/* ---- UTM: repassar os parâmetros de rastreio da LP para os links de checkout da Eduzz ---- */
+document.addEventListener('click', e => {
+  const el = e.target.closest('a[href*="eduzz.com"]');
+  if (!el) return;
+  const pageParams = new URLSearchParams(window.location.search);
+  const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_content', 'utm_term'];
+  const linkUrl = new URL(el.href);
+  utmKeys.forEach(key => {
+    const value = pageParams.get(key);
+    if (value) linkUrl.searchParams.set(key, value);
+  });
+  el.href = linkUrl.toString();
+});
+
 /* ---- Features ---- */
 const ICONS = {
   dash: '<rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/>',
